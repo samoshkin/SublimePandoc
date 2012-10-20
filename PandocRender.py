@@ -6,9 +6,7 @@ import re
 import sys
 import subprocess
 
-
 plugin_path = os.path.dirname(os.path.abspath(__file__))
-
 
 class PandocRenderCommand(sublime_plugin.TextCommand):
     """ render file contents to HTML and, optionally, open in your web browser"""
@@ -23,10 +21,9 @@ class PandocRenderCommand(sublime_plugin.TextCommand):
         return self.view.score_selector(0, "text.html.markdown") > 0
 
     def is_visible(self):
-        return True 
+        return True
 
-    def run(self, edit, target="html", openAfter=True, writeBeside=False, additionalArguments=[]):
-        if not target in ["html","docx"]: raise Exception("target must be either 'html' or 'docx'")
+    def run(self, edit, target="html", openAfter=True, writeBeside=False, commandArgs=[]):
 
         # grab contents of buffer
         region = sublime.Region(0, self.view.size())
@@ -54,28 +51,28 @@ class PandocRenderCommand(sublime_plugin.TextCommand):
 
         # build output
         cmd = ['pandoc']
-        cmd.append('-t')
-        cmd.append({'html':'html5', 'docx':'docx'}[target])
-        cmd.append('--standalone')
-        cmd.append('--template=%s' % self.getTemplatePath("template.html"))
-        cmd.append('--reference-docx=%s' % self.getTemplatePath("reference.docx"))
-        cmd.append(tmp_md.name)
-        cmd.append("-o")
-        cmd.append(output_filename)
-        cmd += additionalArguments
+        cmd.append('--data-dir={0}'.format(plugin_path));
+        cmd += commandArgs
 
         # Extra arguments to pass into pandoc, e.g.:
         #     <!-- [[ PANDOC --smart --no-wrap ]] -->
-        match = re.match(r'.*<!--\s+\[\[ PANDOC (?P<args>.*) \]\]\s+-->', contents)
-        if match:
+        matches = re.finditer(r'<!--\s+\[\[ PANDOC (?P<args>.*) \]\]\s+-->', contents)
+        for match in matches:
             cmd += match.groupdict()['args'].split(' ')
 
+        # Destination file
+        cmd.append("-o")
+        cmd.append(output_filename)
+
+        # Source file
+        cmd.append(tmp_md.name)
 
         try:
-            subprocess.call(cmd)
+            print('Executing command: ' + ' '.join(cmd))
+            output = subprocess.Popen(cmd, stdout = subprocess.PIPE).communicate()
+            print(output)
         except Exception as e:
             sublime.error_message("Unable to execute Pandoc.  \n\nDetails: {0}".format(e))
-
 
         print "Wrote:", output_filename
 
@@ -89,4 +86,3 @@ class PandocRenderCommand(sublime_plugin.TextCommand):
                 subprocess.call(["open", output_filename])
             elif target == "docx" and sys.platform == "posix":
                 subprocess.call(["xdg-open", output_filename])
-
