@@ -1,22 +1,46 @@
 [
     {
-        "caption": "Pandoc: Render Markdown to temp HTML and View",
+        "caption": "Pandoc: Markdown to temp HTML and View",
         "command": "pandoc_render",
-        "args": {
-            "openAfter":true,
+        "args":
+        {
+            "openAfter":false,
             "target":"html",
             "writeBeside":false,
             "commandArgs" : ["-t", "html", "-s"]
         }
     },
     {
-        "caption": "Pandoc: Render Markdown to HTML",
+        "caption": "Pandoc: Markdown to HTML",
         "command": "pandoc_render",
-        "args":{"openAfter":false,   "target":"html",    "writeBeside":true}
+        "args":
+        {
+            "openAfter":false,
+            "target":"html",
+            "writeBeside":true,
+            "commandArgs" : ["-t", "html", "-s", "--highlight-style", "pygments", "--mathml"]
+        }
     },
     {
-        "caption": "Pandoc: Render Markdown DocX",
+        "caption": "Pandoc: Markdown to PDF",
         "command": "pandoc_render",
-        "args":{"openAfter":false,   "target":"docx",    "writeBeside":true}
+        "args":
+        {
+            "openAfter":false,
+            "target":"pdf",
+            "writeBeside":true,
+            "commandArgs" : ["-s", "--highlight-style", "pygments", "--mathml", "--latex-engine", "xelatex"]
+        }
+    },
+    {
+        "caption": "Pandoc: Markdown to DocX",
+        "command": "pandoc_render",
+        "args":
+        {
+            "openAfter":false,
+            "target":"docx",
+            "writeBeside":true,
+            "commandArgs" : ["-t", "docx", "-s", "--highlight-style", "pygments", "--mathml"]
+        }
     }
 ]

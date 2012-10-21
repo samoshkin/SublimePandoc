@@ -5,8 +5,8 @@
     {
       "openAfter": true,
       "target": "html",
-      "writeBeside": false,
-      "commandArgs" : ["-t", "html", "-s", "--highlight-style", "pygments", "--mathml"]
+      "writeBeside": true,
+      "commandArgs" : ["-s", "-t", "html", "--highlight-style", "pygments", "--mathml", "--latex-engine", "xelatex"]
     },
     "context":[{"key": "selector", "operator": "equal", "operand": "text.html.markdown" }]},
   {

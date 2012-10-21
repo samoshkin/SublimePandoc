@@ -60,6 +60,7 @@ class PandocRenderCommand(sublime_plugin.TextCommand):
         for match in matches:
             cmd += match.groupdict()['args'].split(' ')
 
+
         # Destination file
         cmd.append("-o")
         cmd.append(output_filename)
@@ -69,20 +70,19 @@ class PandocRenderCommand(sublime_plugin.TextCommand):
 
         try:
             print('Executing command: ' + ' '.join(cmd))
-            output = subprocess.Popen(cmd, stdout = subprocess.PIPE).communicate()
-            print(output)
+            output = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE).communicate()
+            print "Output: ", output
+            print "Done: ", output_filename
         except Exception as e:
             sublime.error_message("Unable to execute Pandoc.  \n\nDetails: {0}".format(e))
-
-        print "Wrote:", output_filename
 
         if openAfter:
             if target == "html":
                 webbrowser.open_new_tab(output_filename)
             # perhaps there is a better way of handling the DocX opening...?
-            elif target == "docx" and sys.platform == "win32":
+            elif sys.platform == "win32":
                 os.startfile(output_filename)
-            elif target == "docx" and sys.platform == "mac":
+            elif sys.platform == "mac":
                 subprocess.call(["open", output_filename])
-            elif target == "docx" and sys.platform == "posix":
+            elif sys.platform == "posix":
                 subprocess.call(["xdg-open", output_filename])
