@@ -6,7 +6,7 @@
       "openAfter": true,
       "target": "html",
       "writeBeside": true,
-      "commandArgs" : ["-s", "-t", "html", "--highlight-style", "pygments", "--mathml", "--latex-engine", "xelatex"]
+      "commandArgs" : ["-t", "dzslides", "-s", "--mathml", "--highlight-style", "pygments", "--self-contained"]
     },
     "context":[{"key": "selector", "operator": "equal", "operand": "text.html.markdown" }]},
   {

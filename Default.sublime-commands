@@ -42,5 +42,16 @@
             "writeBeside":true,
             "commandArgs" : ["-t", "docx", "-s", "--highlight-style", "pygments", "--mathml"]
         }
+    },
+    {
+        "caption": "Pandoc: Markdown to Slides",
+        "command": "pandoc_render",
+        "args":
+        {
+            "openAfter":false,
+            "target":"html",
+            "writeBeside":true,
+            "commandArgs" : ["-t", "dzslides", "-s", "--mathml", "--highlight-style", "pygments", "--self-contained"]
+        }
     }
 ]
