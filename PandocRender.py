@@ -32,7 +32,7 @@ class PandocRenderCommand(sublime_plugin.TextCommand):
             encoding = 'UTF-8'
         elif encoding == 'Western (Windows 1252)':
             encoding = 'windows-1252'
-        contents = self.view.substr(region)
+        contents = self.view.substr(region).encode(encoding)
 
         # write buffer to temporary file
         tmp_md = tempfile.NamedTemporaryFile(delete=False, suffix=".md")

@@ -5,8 +5,8 @@
     {
       "openAfter": true,
       "target": "html",
-      "writeBeside": true,
-      "commandArgs" : ["-t", "dzslides", "-s", "--mathml", "--highlight-style", "pygments", "--self-contained"]
+      "writeBeside": false,
+      "commandArgs" : ["-t", "html", "-s", "--highlight-style", "pygments", "--mathml"]
     },
     "context":[{"key": "selector", "operator": "equal", "operand": "text.html.markdown" }]},
   {
